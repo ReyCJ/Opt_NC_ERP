@@ -55,9 +55,11 @@ Comp=2 % No. Components of interest
 a=2; % NC_from
 b=15; % NC_to
 
-thr=0.95; % the threshold for inner-similarity evaluation
+Thr=0.95; % the threshold for inner-similarity evaluation #default =0.95
 min_count=1;
 Max_count=100; % maximum iterations
+corThr=0.02; % Correlation stability parameter #default = 0.02
+
 
 
 % Data Preparing ---------------------------------------------------------
@@ -101,7 +103,7 @@ for count=min_count:Max_count
        
         % Optimal number of clusters detection ----------------------------
         
-        [Opt_NC,Opt_TW,corr_opt_NC,std_Opt_NC,corr_all]=Opt_NC_Det_Sim(compGroup_CC_inp,a,b,St,G,com,thr);
+        [Opt_NC,Opt_TW,corr_opt_NC,std_Opt_NC,corr_all]=Opt_NC_Det_Sim(compGroup_CC_inp,a,b,St,G,com,Thr);
         
         % end
         
@@ -140,8 +142,6 @@ end
 
 %%  Selecting Overal_optimal number of clusters --------------------------
 
-corThr=0.02; % Correlation stability parameter #default = 0.02
-Thr=0.91;
 maxThr=Thr; % Optimal selecting parameter # #default = 0.95
 
 g=1;
@@ -175,15 +175,10 @@ for c=1:Comp
             maxThr=maxThr-0.0005; % decreasing the maximum threshold
             corThr1=corThr1+0.00001;
             
-            %             corThr1=corThr1+0.002; % less strict in stability
-            % %
-            % %         OPNC(g).stim(st).data=[0,0];
+          
         end
         
-        %%%
-        
-        %         id=OPNC(g).stim(st).data(c,:); % OPNC ID
-        %          [mival,~]=min(corr_avg(2,:));
+      
     end
 end
 
@@ -209,7 +204,7 @@ for c=1:Comp
         plot(mean(corrplot',2),'-o','LineWidth',2,'MarkerSize',5);
         
         plot([(OPNC(c).stim(st).data(1)-a)+1,(OPNC(c).stim(st).data(1)-a)+1],[0 ,1.1],'--k');
-        plot([0,(b-a)+1],[thr,thr],'--r');
+        plot([0,(b-a)+1],[Thr,Thr],'--r');
         
         hold off
         xlabel('Number of clusters #');
@@ -301,10 +296,3 @@ set(gca,'fontsize',12);
 title(['p-value for 100 times running procedure']);
 
 % The END -----------------------------------------------------------------
-
-
-
-
-
-
-
