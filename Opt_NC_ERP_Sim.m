@@ -31,7 +31,7 @@ load Data_LN_N.mat;
 
 % The dataset for optimal number of clusters anaelysis 
 
-load compGroup_CC_LN_N; % loading all results from CC (i.e. consensus clustering results...
+% % load compGroup_CC; % loading all results from CC (i.e. consensus clustering results...
 % from 5 clustering methods)
 
 Data=squeeze(Data_noise(:,:,:,:,1)); % ERP data with low level noise
@@ -50,15 +50,17 @@ end_ms=600; % ephochs end
 twStart=[183 231]; % roughly selected measurment interval by experimenter (here we defined by software)
 twEnd=[278 350];
 Chan=65; % number of channels
-Comp=2 % No. Components of interest
+Comp=2; % No. Components of interest
 
 a=2; % NC_from
 b=15; % NC_to
 
 Thr=0.95; % the threshold for inner-similarity evaluation #default =0.95
-min_count=1;
-Max_count=100; % maximum iterations
 corThr=0.02; % Correlation stability parameter #default = 0.02
+
+min_count=1;
+Max_count=input('Number of iterative running the method (i.e. must bigger than 1, recommended 20 for Simulated ERP) ='); % maximum iterations
+
 
 
 
@@ -70,8 +72,12 @@ inData=DimPrep(Data,Chan,Sa,St,Subj,G);   % Channel x Sample x Stim x Subject x 
 
 x=inDaGA_M1;  % Fetching dataset
 
+compGroup_CC= CC_ERP_GA_Sim(x,a,b,chanlocs,Sa,St,Comp,Max_count,twStart,twEnd,start_ms,end_ms);
 
-% Main procedure  -------------------------------------------------------------------
+
+
+
+%%  Main procedure  -------------------------------------------------------------------
 
 tic
 
