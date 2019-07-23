@@ -7,18 +7,11 @@ function [Opt_NC,Opt_TW,corr_opt_NC,std_Opt_NC,corr_all]=Opt_NC_Det_Sim(compInfo
 
 
 stimSet={'Cond1','Cond2'};
-% % groupSet={'RS','HC'};
 comp={'N2','P3'};
+% % groupSet={'RS','HC'};
 
 
 % for g=1:G % number of groups
-
-
-count=1;
-
-
-figure(g+2*Comp-2)
-
 
 for st=1:St % number of stimuli
     for k=a:b % test range of clustering
@@ -89,29 +82,7 @@ maxThr=Thr; % Optimal selecting parameter
         msg = 'There is no optimal NC, please check the code!';
         error(msg)
     end
-    
-  %% Plot the inner similarity and OpNC
-  
- 
-    subplot(1,St,st,'align');
-    plot(corr_avg(2,:),'-o','LineWidth',1,'MarkerSize',5);
-    xticks(1:(b-a+1));
-    xticklabels(a:b);
-    hold on
-    %         plot([5,5],[mival,Maval],'--k');
-    plot([(OPNC(g).stim(st).data(1)-a)+1,(OPNC(g).stim(st).data(1)-a)+1],[0 ,1.05],'--k');
-    plot([0,(b-a)+1],[Thr,Thr],'--r');
-    % %         gtext('Optimal number of clusters')
-    title(['Optimal NC for ', comp{Comp}, ' Stim= ',stimSet{st}]);
-    xlabel('Number of cluster #');
-    ylabel('Correlation');
 
-    count=count+1;
-    set(gca, 'fontsize',12);
-%     set(gcf,'outerposition',get(0,'screensize'));
-    ylim([0 1.05]);
-
-    
 end
 
 end
